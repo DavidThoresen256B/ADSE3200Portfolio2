@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>yale school of art</title>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div id="logo">yale school of art</div>
+        <div id="navigation">
+            <a href="index.html"><ion-icon name="home-outline"></ion-icon> home</a>
+            <a href="about.html"><ion-icon name="person-outline"></ion-icon> about</a>
+            <a href="apply.html"><ion-icon name="log-in-outline"></ion-icon> apply</a>
+            <a href="exhibitions.html"><ion-icon name="image-outline"></ion-icon> exhibitions</a>
+            <a href="publications.html"><ion-icon name="newspaper-outline"></ion-icon> publications</a>
+            <a href="news.html"><ion-icon name="megaphone-outline"></ion-icon> news</a>
+            <a class="active" href="events.html"><ion-icon class="active" name="calendar-outline"></ion-icon> events</a>
+        </div>
+    </nav>
+    <main>
+        <div class="main_content">
+            <div class="top_content">
+                <p>
+                    Welcome to the School of Art’s public events calendar, initiated in the summer of 2020. To stay
+                    updated on new events as they’re confirmed, all members of the public are invited to subscribe this
+                    calendar to their own calendaring software by clicking the “Subscribe” button below.
+                </p>
+            </div>
+            <div class="top_content">
+                <div class="calendar"></div>
+            </div>
+            <div class="secondary_content">
+                <p>
+                    Public events hosted by the Yale School of Art are also posted on our <a
+                        href="https://www.facebook.com/YaleSchoolofArt/events">Facebook</a>
+                </p>
+            </div>
+            <div class="secondary_content">
+                <p>
+                    For a calendar of exhibitions and events hosted by, led by, or featuring members of the School of
+                    Art community, visit <a href="#">Yale School of Art in the World</a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div id="footer_main">
+            <div>
+                <a href="#">support the school</a><br>
+                <a href="#">visiting</a><br>
+                <a href="#">sitemap</a><br>
+                <a href="#">accessibility at yale</a>
+            </div>
+            <div>
+                <a href="#"><ion-icon name="call-outline"></ion-icon>contact</a><br>
+                <a href="https://www.instagram.com/yaleschoolofart/"><ion-icon
+                        name="logo-instagram"></ion-icon>instagram</a><br>
+                <a href="https://www.facebook.com/YaleSchoolofArt/"><ion-icon
+                        name="logo-facebook"></ion-icon>facebook</a><br>
+                <a href="https://www.youtube.com/channel/UCDwJT0mYodTSodcpH-hGmdA"><ion-icon
+                        name="logo-youtube"></ion-icon>youtube</a>
+            </div>
+            <p id="copy">© 2023</p>
+        </div>
+    </footer>
+    <script>
+        function CalendarControl() {
+            const calendar = new Date();
+            const calendarControl = {
+                localDate: new Date(),
+                prevMonthLastDate: null,
+                calWeekDays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                calMonthName: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec"
+                ],
+                daysInMonth: function (month, year) {
+                    return new Date(year, month, 0).getDate();
+                },
+                firstDay: function () {
+                    return new Date(calendar.getFullYear(), calendar.getMonth(), 1);
+                },
+                lastDay: function () {
+                    return new Date(calendar.getFullYear(), calendar.getMonth() + 1, 0);
+                },
+                firstDayNumber: function () {
+                    return calendarControl.firstDay().getDay() + 1;
+                },
+                lastDayNumber: function () {
+                    return calendarControl.lastDay().getDay() + 1;
+                },
+                getPreviousMonthLastDate: function () {
+                    let lastDate = new Date(
+                        calendar.getFullYear(),
+                        calendar.getMonth(),
+                        0
+                    ).getDate();
+                    return lastDate;
+                },
+                navigateToPreviousMonth: function () {
+                    calendar.setMonth(calendar.getMonth() - 1);
+                    calendarControl.attachEventsOnNextPrev();
+                },
+                navigateToNextMonth: function () {
+                    calendar.setMonth(calendar.getMonth() + 1);
+                    calendarControl.attachEventsOnNextPrev();
+                },
+                navigateToCurrentMonth: function () {
+                    let currentMonth = calendarControl.localDate.getMonth();
+                    let currentYear = calendarControl.localDate.getFullYear();
+                    calendar.setMonth(currentMonth);
+                    calendar.setYear(currentYear);
+                    calendarControl.attachEventsOnNextPrev();
+                },
+                displayYear: function () {
+                    let yearLabel = document.querySelector(".calendar .calendar-year-label");
+                    yearLabel.innerHTML = calendar.getFullYear();
+                },
+                displayMonth: function () {
+                    let monthLabel = document.querySelector(
+                        ".calendar .calendar-month-label"
+                    );
+                    monthLabel.innerHTML = calendarControl.calMonthName[calendar.getMonth()];
+                },
+                selectDate: function (e) {
+                    console.log(
+                        `${e.target.textContent} ${calendarControl.calMonthName[calendar.getMonth()]
+                        } ${calendar.getFullYear()}`
+                    );
+                },
+                plotSelectors: function () {
+                    document.querySelector(
+                        ".calendar"
+                    ).innerHTML += `<div class="calendar-inner"><div class="calendar-controls">
+          <div class="calendar-prev"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><path fill="#666" d="M88.2 3.8L35.8 56.23 28 64l7.8 7.78 52.4 52.4 9.78-7.76L45.58 64l52.4-52.4z"/></svg></a></div>
+          <div class="calendar-year-month">
+          <div class="calendar-month-label"></div>
+          <div>-</div>
+          <div class="calendar-year-label"></div>
+          </div>
+          <div class="calendar-next"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><path fill="#666" d="M38.8 124.2l52.4-52.42L99 64l-7.77-7.78-52.4-52.4-9.8 7.77L81.44 64 29 116.42z"/></svg></a></div>
+          </div>
+          <div class="calendar-today-date">Today: 
+            ${calendarControl.calWeekDays[calendarControl.localDate.getDay()]}, 
+            ${calendarControl.localDate.getDate()}, 
+            ${calendarControl.calMonthName[calendarControl.localDate.getMonth()]} 
+            ${calendarControl.localDate.getFullYear()}
+          </div>
+          <div class="calendar-body"></div></div>`;
+                },
+                plotDayNames: function () {
+                    for (let i = 0; i < calendarControl.calWeekDays.length; i++) {
+                        document.querySelector(
+                            ".calendar .calendar-body"
+                        ).innerHTML += `<div>${calendarControl.calWeekDays[i]}</div>`;
+                    }
+                },
+                plotDates: function () {
+                    document.querySelector(".calendar .calendar-body").innerHTML = "";
+                    calendarControl.plotDayNames();
+                    calendarControl.displayMonth();
+                    calendarControl.displayYear();
+                    let count = 1;
+                    let prevDateCount = 0;
+
+                    calendarControl.prevMonthLastDate = calendarControl.getPreviousMonthLastDate();
+                    let prevMonthDatesArray = [];
+                    let calendarDays = calendarControl.daysInMonth(
+                        calendar.getMonth() + 1,
+                        calendar.getFullYear()
+                    );
+                    // dates of current month
+                    for (let i = 1; i < calendarDays; i++) {
+                        if (i < calendarControl.firstDayNumber()) {
+                            prevDateCount += 1;
+                            document.querySelector(
+                                ".calendar .calendar-body"
+                            ).innerHTML += `<div class="prev-dates"></div>`;
+                            prevMonthDatesArray.push(calendarControl.prevMonthLastDate--);
+                        } else {
+                            document.querySelector(
+                                ".calendar .calendar-body"
+                            ).innerHTML += `<div class="number-item" data-num=${count}><a class="dateNumber" href="#">${count++}</a></div>`;
+                        }
+                    }
+                    //remaining dates after month dates
+                    for (let j = 0; j < prevDateCount + 1; j++) {
+                        document.querySelector(
+                            ".calendar .calendar-body"
+                        ).innerHTML += `<div class="number-item" data-num=${count}><a class="dateNumber" href="#">${count++}</a></div>`;
+                    }
+                    calendarControl.highlightToday();
+                    calendarControl.plotPrevMonthDates(prevMonthDatesArray);
+                    calendarControl.plotNextMonthDates();
+                },
+                attachEvents: function () {
+                    let prevBtn = document.querySelector(".calendar .calendar-prev a");
+                    let nextBtn = document.querySelector(".calendar .calendar-next a");
+                    let todayDate = document.querySelector(".calendar .calendar-today-date");
+                    let dateNumber = document.querySelectorAll(".calendar .dateNumber");
+                    prevBtn.addEventListener(
+                        "click",
+                        calendarControl.navigateToPreviousMonth
+                    );
+                    nextBtn.addEventListener("click", calendarControl.navigateToNextMonth);
+                    todayDate.addEventListener(
+                        "click",
+                        calendarControl.navigateToCurrentMonth
+                    );
+                    for (var i = 0; i < dateNumber.length; i++) {
+                        dateNumber[i].addEventListener(
+                            "click",
+                            calendarControl.selectDate,
+                            false
+                        );
+                    }
+                },
+                highlightToday: function () {
+                    let currentMonth = calendarControl.localDate.getMonth() + 1;
+                    let changedMonth = calendar.getMonth() + 1;
+                    let currentYear = calendarControl.localDate.getFullYear();
+                    let changedYear = calendar.getFullYear();
+                    if (
+                        currentYear === changedYear &&
+                        currentMonth === changedMonth &&
+                        document.querySelectorAll(".number-item")
+                    ) {
+                        document
+                            .querySelectorAll(".number-item")
+                        [calendar.getDate() - 1].classList.add("calendar-today");
+                    }
+                },
+                plotPrevMonthDates: function (dates) {
+                    dates.reverse();
+                    for (let i = 0; i < dates.length; i++) {
+                        if (document.querySelectorAll(".prev-dates")) {
+                            document.querySelectorAll(".prev-dates")[i].textContent = dates[i];
+                        }
+                    }
+                },
+                plotNextMonthDates: function () {
+                    let childElemCount = document.querySelector('.calendar-body').childElementCount;
+                    //7 lines
+                    if (childElemCount > 42) {
+                        let diff = 49 - childElemCount;
+                        calendarControl.loopThroughNextDays(diff);
+                    }
+
+                    //6 lines
+                    if (childElemCount > 35 && childElemCount <= 42) {
+                        let diff = 42 - childElemCount;
+                        calendarControl.loopThroughNextDays(42 - childElemCount);
+                    }
+
+                },
+                loopThroughNextDays: function (count) {
+                    if (count > 0) {
+                        for (let i = 1; i <= count; i++) {
+                            document.querySelector('.calendar-body').innerHTML += `<div class="next-dates">${i}</div>`;
+                        }
+                    }
+                },
+                attachEventsOnNextPrev: function () {
+                    calendarControl.plotDates();
+                    calendarControl.attachEvents();
+                },
+                init: function () {
+                    calendarControl.plotSelectors();
+                    calendarControl.plotDates();
+                    calendarControl.attachEvents();
+                }
+            };
+            calendarControl.init();
+        }
+
+        const calendarControl = new CalendarControl();
+    </script>
+</body>
+
+</html>
